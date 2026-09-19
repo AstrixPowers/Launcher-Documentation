@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrix Launcher Documentation</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <style>
+        /* GLOBAL RESET & DARK BACKGROUND */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b0b0b;        /* deep black background */
+            color: #e0e0e0;                    /* soft light text */
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* SMOOTH SCROLL & SELECTION */
+        ::selection {
+            background: #f500ff;
+            color: #000;
+        }
+
+        /* ---------- TYPOGRAPHY ---------- */
+        h1, h2, h3, h4, h5, h6 {
+            color: #f500ff;                    /* vibrant magenta for all headers */
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-top: 2.2em;
+            margin-bottom: 0.75em;
+            line-height: 1.3;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            border-bottom: 2px solid #f500ff;
+            padding-bottom: 0.4rem;
+            margin-top: 1.2em;
+        }
+
+        h2 {
+            font-size: 1.9rem;
+            border-bottom: 1px solid rgba(245, 0, 255, 0.4);
+            padding-bottom: 0.3rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            color: #f500ff;
+        }
+
+        /* DISTANCE LINES BETWEEN HEADERS AND CONTENT */
+        h1 + *,
+        h2 + *,
+        h3 + *,
+        h4 + *,
+        h5 + *,
+        h6 + * {
+            margin-top: 0.5rem;
+        }
+
+        /* Additional line separation for major sections */
+        h1, h2, h3, h4, h5, h6 {
+            position: relative;
+            padding-bottom: 0.35rem;
+        }
+
+        h1::after,
+        h2::after,
+        h3::after,
+        h4::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, #f500ff 0%, #f500ff 40%, transparent 100%);
+            margin-top: 0.7rem;
+            opacity: 0.5;
+        }
+
+        /* ---------- PARAGRAPHS & LISTS ---------- */
+        p {
+            margin-bottom: 1.25rem;
+            color: #d0d0d0;
+        }
+
+        ul, ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.8rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* ---------- LINKS ---------- */
+        a {
+            color: #ff7bff;
+            text-decoration: none;
+            border-bottom: 1px dotted rgba(245, 0, 255, 0.5);
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        a:hover {
+            color: #ffb3ff;
+            border-bottom-color: #ffb3ff;
+        }
+
+        /* ---------- CODE BLOCKS & INLINE ---------- */
+        code {
+            background: #1e1e1e;
+            color: #f0a0f0;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #111;
+            border-left: 4px solid #f500ff;
+            padding: 1rem 1.2rem;
+            border-radius: 0 12px 12px 0;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: #e0e0e0;
+        }
+
+        /* ---------- IMAGES (responsive, subtle border) ---------- */
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 1px solid #2a2a2a;
+            margin: 0.8rem 0;
+            display: block;
+        }
+
+        /* ---------- YOUTUBE IFRAMES — downsize & prevent overflow ---------- */
+        iframe {
+            display: block;
+            width: 100%;
+            max-width: 720px;          /* much smaller than original 1470px */
+            aspect-ratio: 16 / 9;
+            height: auto;
+            border-radius: 14px;
+            border: 1px solid #2a2a2a;
+            margin: 1.8rem 0 2rem 0;
+            background: #000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Center iframes for better readability */
+        iframe {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ---------- FIGURES & CAPTIONS ---------- */
+        figure {
+            margin: 1.8rem 0;
+            text-align: center;
+        }
+
+        figcaption {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.3rem;
+            font-style: italic;
+        }
+
+        /* ---------- MARK / HIGHLIGHT ---------- */
+        mark {
+            background: rgba(245, 0, 255, 0.15);
+            color: #ffb3ff;
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+        }
+
+        /* ---------- RED WARNING TEXT (still visible on black) ---------- */
+        [style*="color:red"] {
+            color: #ff5e5e !important;
+            font-weight: 500;
+        }
+
+        /* ---------- BLOCKQUOTE / IMPORTANT ---------- */
+        .important, .warning {
+            background: #1a0f1a;
+            border-left: 4px solid #f500ff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1.5rem 0;
+        }
+
+        /* ---------- MISC SPACING ---------- */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #f500ff, transparent);
+            margin: 2.5rem 0;
+            opacity: 0.3;
+        }
+
+        /* ---------- SCROLLBAR (dark) ---------- */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f500ff;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff5eff;
+        }
+
+        /* small responsive tweak */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+            h1 { font-size: 1.9rem; }
+            h2 { font-size: 1.6rem; }
+            iframe {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        The content below is the exact markdown converted to HTML 
+        with all original text, links, images, and iframes preserved.
+        Styling applied via CSS above.
+    -->
+    <h1>C++ Runtime Components</h1>
+
+    <h2>Introduction</h2>
+    <p>Our solutions use VC++ packages in order to render everything, please install it.</p>
+
+    <h2>Installation</h2>
+    <p>Install <strong>both</strong> of the redists.</p>
+    <p>
+        <a href="https://aka.ms/vs/17/release/vc_redist.x86.exe">vc_redist.x86</a><br>
+        <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe">vc_redist.x64</a>
+    </p>
+
+    <h1>Windows Defender</h1>
+    <p>Since we use <a href="https://vmpsoft.com/">VMProtect</a> and <a href="https://www.oreans.com/">Code Virtualizer</a></p>
+    <p>Our launcher file might be marked as a trojan by the windows defender, hence we advice to add your disks to exclusions, so the windows defender doesnt remove the launcher file.</p>
+
+    <p><mark style="color:red;">DO NOT MAKE CHANGES TO WINDOWS DEFENDER UNLESS NECESSARY AND INSTRUCTED BY SUPPORT</mark></p>
+
+    <p><strong>Instruction via PowerShell</strong></p>
+    <ol>
+        <li>Open powershell as Administrator</li>
+        <li>Copy and paste the command, but change the drive name to the drive that your launcher is installed at (Usually C Drive)</li>
+    </ol>
+    <pre><code>Add-MpPreference -ExclusionPath 'C:\'</code></pre>
+
+    <p><strong>Adding disks to exclusions manually</strong></p>
+    <ol>
+        <li>Open windows defender settings.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FHdDAtcw9jS5MiALS2Xti%2Fwdsettings.png?alt=media&token=319070e6-dcbb-4105-8127-fe090e4559d2" alt="Windows Defender settings">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Go to Virus &amp; Threat protection.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FYPidRamYlQrCsNSTxTOl%2Fvtprot.png?alt=media&token=205c1f51-a471-4efd-a6cc-87948f5a319d" alt="Virus & threat protection">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Press Manage Settings under Virus &amp; threat protection settings
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2Fu4x5A4v0nn6JiDeEcZD0%2Fmngset.png?alt=media&token=2cd567f2-9a90-4aa6-a7c6-e37eee9e80b5" alt="Manage settings">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Scroll to the bottom and find Exclusions settings, press Add or remove exclusions.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FJa0f1tYZB2qColxPbmfa%2Fexclusions.png?alt=media&token=e4e04e04-3052-43a8-9a0f-19e4aaf6230f" alt="Exclusions">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>In the opened tab press Add an exclusion, then select Folder
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2Fl4wdhLvb5LjxtWfG85UK%2Ffolder.png?alt=media&token=a5dbeb8d-9955-489d-a571-8bb3705e83e7" alt="Add folder exclusion">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Now go to This pc and select your disk where the launcher is installed</li>
+    </ol>
+
+    <h1>BIOS Mode</h1>
+    <p><mark style="color:red;">NON-UEFI BIOS Mode prevents our solutions from launching, so please make sure it is UEFI.</mark></p>
+    <p>To find out the BIOS mode do this:</p>
+    <ol>
+        <li>Open msinfo32, by typing msinfo32 in windows search.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2Fn5pAdo8P4REvawOLTQqH%2Ffindmsinfo.png?alt=media&token=eb96c0dc-d3a4-4861-b522-53d21cd6c771" alt="msinfo32 search">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Go to System Summary.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FomPGKxckoM9btXhyIwyU%2Fmsinfo.png?alt=media&token=e83376d2-dfb3-4f30-ae1f-82e403b634c8" alt="System Summary">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Find line called BIOS Mode, if its UEFI, then you are good to go
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FADBnjPyxCeATlLBPhS1s%2Fbiosmode.png?alt=media&token=f8b06b97-12f8-472b-99d5-7a8b270a533d" alt="BIOS Mode">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+    <p><mark style="color:red;">If your BIOS Mode is UEFI, then go to the next page.</mark></p>
+
+    <h2>Legacy to UEFI</h2>
+    <p>In case if your BIOS Mode isnt UEFI, then you can either do MBR2GPT, that doesnt work for everyone, or you can reinstall your windows.</p>
+    <p>Read the next topics to learn how to do either.</p>
+    <p><strong>Fix 1: MBR2GPT (Might not work)</strong></p>
+    <p>You can follow this <a href="https://learn.microsoft.com/en-us/windows/deployment/mbr-to-gpt">official Microsoft guide</a></p>
+    <p>Or this text guide written by us:</p>
+    <ol>
+        <li>Open powershell as Administrator
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FgiclDedy9wPF1I3cQvAT%2Fopen_power_shell.png?alt=media&token=a3dac31a-7591-4dc5-adce-f1ee8038fe3c" alt="Open PowerShell as admin">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Paste command</li>
+    </ol>
+    <pre><code>mbr2gpt /disk:0 /validate /allowFullOS</code></pre>
+    <ol start="3">
+        <li>Paste command</li>
+    </ol>
+    <pre><code>mbr2gpt /disk:0 /convert /allowFullOS</code></pre>
+    <ol start="4">
+        <li>Make sure the output is: <code>Before the new system can boot properly you need to switch the firmware to boot to UEFI mode!</code>
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FAmKhE8Tsi1btgHmPEaEx%2Fmbr2gpt-disk-convert-success.png?alt=media&token=d090e9be-9008-4b4e-9e27-902e662d78dc" alt="MBR2GPT success">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+    <p>The issue you might encounter is that the powershell will output:</p>
+    <pre><code>MBR2GPT: Disk layout validation failed for disk 0</code></pre>
+    <p>To fix Disk layout validation failed follow this video guide:</p>
+    <iframe width="1470" height="828" src="https://www.youtube.com/embed/ytRJhwL6vAg" title="MBR2GPT Disk layout validation failed for disk 0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <p><strong>Fix 2: Windows reinstall</strong></p>
+    <p>Requires a USB flash-stick that is at least 4GB in space.</p>
+    <ol>
+        <li>Get yourself an usb that is at least 4gb in space.</li>
+        <li>Download windows media creation tool from any of these sites:
+            <p>
+                <a href="https://www.micorosft.com/en-gb/software-download/windows11">Windows 11</a><br>
+                <a href="https://www.micorosft.com/en-gb/software-download/windows10">Windows 10</a>
+            </p>
+            <p>To see what windows version we support go <a href="/fecuritydocs/misc-content/system-requirements.md">here</a>.</p>
+        </li>
+        <li>Open the windows media creation tool, and first of all press next a couple time till you get to step called "Choose which media to use" and select ISO file on it.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FqCJ3uqZcmLAfJD74grXs%2FSetupHost_sAOcnUeP0y.png?alt=media&token=5b6ce95d-4b8e-426c-a06b-be1176bfdb92" alt="Media creation tool ISO">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>After the media creation tool done its work, download <a href="https://rufus.ie/">rufus</a>.</li>
+        <li>After downloading open it, and set "Parition scheme" to GPT, and "Target system" to uefi non-csm like so:
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2Fl6LLWqqEilA6FeVN7YFu%2Frufus-4.2_CbkMyecc3e.png?alt=media&token=600b815e-21b4-4f63-81e9-e0f97a63daa8" alt="Rufus settings GPT UEFI">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Now, go to bios, go to boot tab and find CSM or Compatibility Support Module and disable it.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FmQx5Ub83fAm1mUU0kIVh%2FDisable-CSM-to-Install-Windows-11-4.jpg?alt=media&token=900f7998-4b82-4828-8e8b-26031b2ab5fd" alt="Disable CSM in BIOS">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>After disabling CSM boot from your flash drive and install windows with removing and creating all the disks.</li>
+    </ol>
+
+    <h1>Secure Boot</h1>
+    <h2>How to disable secure boot</h2>
+    <p>To find the secure boot status do this:</p>
+    <ol>
+        <li>Open msinfo32, by typing msinfo32 in windows search.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2Fn5pAdo8P4REvawOLTQqH%2Ffindmsinfo.png?alt=media&token=eb96c0dc-d3a4-4861-b522-53d21cd6c771" alt="msinfo32">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Go to System Summary.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FomPGKxckoM9btXhyIwyU%2Fmsinfo.png?alt=media&token=e83376d2-dfb3-4f30-ae1f-82e403b634c8" alt="System Summary">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Find line called Secure Boot State, if its Off / Unsupported, then you are good to go
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2F6nDhsstyoBbMRlSN0nM1%2Fsbdisabled.png?alt=media&token=62a3d6ba-b723-46ad-9f50-3a08aa882914" alt="Secure Boot disabled">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+    <p>In case if your secure boot is on, disable it by following the guides listed below for your motherboard:</p>
+
+    <h2>MSI</h2>
+    <iframe width="1470" height="827" src="https://www.youtube.com/embed/eL9eTqbb6Rw" title="How to Enable or Disable Secure Boot on MSI Motherboard" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <h2>ASUS</h2>
+    <iframe width="1337" height="752" src="https://www.youtube.com/embed/ikcCGvTfbZs" title="How to Enable or Disable Secure Boot on Asus Motherboard" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <h2>Gigabyte / Aorus</h2>
+    <iframe width="1337" height="752" src="https://www.youtube.com/embed/4b8F0BXy2y8" title="How to Enable or Disable Secure Boot on Gigabyte Motherboard" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <h2>ASRock</h2>
+    <iframe width="1337" height="752" src="https://www.youtube.com/embed/v-34aIjbtvo" title="How to Enable or Disable Secure Boot in AsRock Motherboard" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <h1>Virtualization</h1>
+    <h2>Introduction</h2>
+    <p>Virtualization is required to run our solutions</p>
+    <ol>
+        <li>Open msinfo32, by typing msinfo32 in windows search.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2Fn5pAdo8P4REvawOLTQqH%2Ffindmsinfo.png?alt=media&token=eb96c0dc-d3a4-4861-b522-53d21cd6c771" alt="msinfo32">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Go to System Summary.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FomPGKxckoM9btXhyIwyU%2Fmsinfo.png?alt=media&token=e83376d2-dfb3-4f30-ae1f-82e403b634c8" alt="System Summary">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Find line called Hyper-V - Virtualization or Virtual Based Security Enabled in Firmware, if it says Yes, then you are good to go
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FEyGLyFZWMwQzS8Pep6ye%2Fvirtualization.png?alt=media&token=69cbba5e-529a-4db5-b82a-aa1ac2aff0f2" alt="Virtualization enabled">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+
+    <h2>Enabling virtualization</h2>
+    <p><strong>Enabling virtualization on AMD</strong></p>
+    <ol>
+        <li>Open advanced settings.</li>
+        <li>Open the Advanced section</li>
+        <li>Locate the SVM Mode option</li>
+        <li>Set the value to ENABLED</li>
+        <li>Save your BIOS settings and restart your PC</li>
+    </ol>
+    <iframe width="1337" height="752" src="https://www.youtube.com/embed/FHW3-m1sO1s" title="How do I enable virtualization in BIOS AMD Ryzen" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <p><strong>Enabling virtualization on INTEL</strong></p>
+    <ol>
+        <li>Open advanced settings.</li>
+        <li>Open the Advanced section</li>
+        <li>Locate the INTEL VIRTUALIZATION TECHNOLOGY option</li>
+        <li>Set the value to ENABLED</li>
+        <li>Save your BIOS settings and restart your PC</li>
+    </ol>
+    <iframe width="1337" height="752" src="https://www.youtube.com/embed/cVvXkwkAt-E" title="How To Enable Virtualization On Your Computer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+    <h1>Fast Boot &amp; Hibernation</h1>
+    <h2>Introduction</h2>
+    <p>Fast Boot &amp; Hibernation is required to be off by our product. The reason why is:</p>
+    <ol>
+        <li>With Fast Boot off system will start with a full reset RAM, guaranteeing that the product will load safely &amp; completely.</li>
+        <li>Hibernation being off drastically lowers the risk of product loading incorrectly.</li>
+    </ol>
+
+    <h2>How to disable Hibernation &amp; Fast Boot</h2>
+    <ol>
+        <li>Right-click the <strong>Start</strong> menu and select <strong>Windows Terminal (Admin)</strong>.
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2F6m5g7oWVL39yDfr3YlfR%2Fimage.png?alt=media&token=e4634441-af25-4c3b-8700-dc63f3b5fee0" alt="Windows Terminal Admin">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>In <strong>Windows Terminal</strong>, enter the following command to turn hibernation off, then press <strong>Enter</strong>.
+            <br><strong>powercfg /h off</strong>
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2F5nwnuPyeIRGRBWL3ILo4%2Fimage.png?alt=media&token=863bc4b6-6bac-45c2-a17c-0b0c0e976a74" alt="powercfg /h off">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+
+    <h1>Overlay setup</h1>
+    <p>In order to use our products you need to have one of the two overlays enabled.</p>
+
+    <h2>Discord overlay</h2>
+    <ol>
+        <li>Open Discord.</li>
+        <li>Open settings:
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FcudMvbwWkY5Fd6N2V6UQ%2Fimage.png?alt=media&token=ba8b79b9-61c0-48ee-acfc-4f5bed56e92b" alt="Discord settings">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Navigate to Activity -&gt; Game Overlay, and enable Overlay:
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FUZPR8jB3VLWJDidBJP5K%2Fimage.png?alt=media&token=0003467f-dd2c-4d8b-9e8c-883e770c05f0" alt="Discord overlay enable">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+    <p><mark style="color:#ffcc00;">IMPORTANT: Legacy overlay should be off.</mark></p>
+
+    <h2>Medal overlay</h2>
+    <ol>
+        <li>Navigate to <a href="https://medal.tv/">https://medal.tv/</a>.</li>
+        <li>Press on Download Medal:
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2F5UwMEX2st4JlBOB1R5AI%2Fimage.png?alt=media&token=305f3377-8d04-4058-bd84-5c76bf52a728" alt="Medal download">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Install and open Medal.</li>
+        <li>Open settings:
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FnkoLDNARsPuG1C1LlrOR%2Fimage.png?alt=media&token=1a2e81b1-73b8-4bfd-ba5f-d90e6e0d900d" alt="Medal settings">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Navigate to overlay tab and enable overlay:
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FnyqmeeCE0Wvjt2CfmEsS%2Fimage.png?alt=media&token=72966f91-d244-4e91-bb58-f29c0a6b6bb7" alt="Medal overlay enable">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+    </ol>
+
+    <h1>How to download &amp; run</h1>
+    <h2>First steps, making sure everything is correct</h2>
+    <p>Before launching our solutions confirm this:</p>
+    <ol>
+        <li>Your secure boot is off.</li>
+        <li>Your virtualization is on.</li>
+        <li>Your BIOS Mode is UEFI.</li>
+        <li>Your Fast Boot &amp; Hibernation is off.</li>
+    </ol>
+    <p>If you have confirmed that everything is right, then you may continue.</p>
+
+    <h2>Launcher, solutions launch process</h2>
+    <ol>
+        <li>Go to our LAUNCHER CHANNEL and go to the page with the loader of the game you bought the key for.
+            <figure>
+                <img src="" alt="">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Upon arriving on the desired game's page, download the LAUNCHER.exe, to download it do this:
+            <br>Press right mouse button on the LAUNCHER.exe
+            <br>Move your mouse on the Download... inscription
+            <br>Press on the Standard Download button
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FhXor2NZ71tjthH8i79OO%2Fdownload1.png?alt=media&token=684b22e0-8a78-488c-8b06-7ea6c0879d02" alt="Download launcher">
+                <figcaption></figcaption>
+            </figure>
+        </li>
+        <li>Open the LAUNCHER.exe
+            <p><mark style="color:green;">If you also want to use the spoofer, then read</mark> <a href="/fecuritydocs/main-content/how-to-use-spoofer.md">this.</a></p>
+            <p><mark style="color:yellow;">On the first launch of the solutions, such error might pop up</mark></p>
+            <figure>
+                <img src="https://2743043510-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2Fp3YPMq1CstulnFtd9Pbw%2Fuploads%2FxDBMVbliz7S2ylMIu5FC%2Fvirt.png?alt=media&token=aa7fa7f7-1562-4f73-9d34-4896f27c568c" alt="Virtualization error">
+                <figcaption></figcaption>
+            </figure>
+            <p><mark style="color:yellow;">To fix it, confirm that you have you virtualization enabled, and press Yes</mark>
+            <br><mark style="color:yellow;">In a case where this error continues to pop up, press Cancel instead, and proceed to enter the key.</mark></p>
+        </li>
+        <li>Enter your key, wait for an automatic reboot.</li>
+        <li>Run the game.</li>
+    </ol>
+    <p>We also have a video guide on how to launch our solutions.</p>
+</body>
+</html>
